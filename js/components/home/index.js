@@ -56,6 +56,7 @@ class Home extends Component {
 
     switchScreen(tabIndex) {
         this.setState({tabIndex: tabIndex});
+        //this.state.tabIndex = tabIndex;
         if (tabIndex == 0) {
 
         }

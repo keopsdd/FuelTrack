@@ -15,16 +15,12 @@ import {
 } from "native-base";
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Settings from '../settings'
-import Add from '../add'
-import About from '../about'
-import Record from '../records'
 
 const {height, width} = Dimensions.get('window');
 
 import styles from "./styles";
 
-class FooterTabs extends Component {
+class Records extends Component {
     static navigationOptions = {
         header: null
     };
@@ -62,43 +58,16 @@ class FooterTabs extends Component {
             })
     }
 
-    renderTab() {
-        let tabType = this.props.type;
-        switch (tabType) {
-            case "HOME":
-                return <View>
-                    <Text>ana sayfa tatlisko</Text>
-                </View>
-                break;
-            case "RECORDS":
-                return <Record/>
-                break;
-            case "ADD":
-                return <Add/>
-                break;
-            case "SETTINGS":
-                return <Settings/>
-                break;
-            case "ABOUT":
-                return <About/>
-                break;
-        }
-    }
-
     render() {
         return (
-            <Container style={styles.container}>
-                <Content padder>
-                    {this.renderTab()}
-                </Content>
-            </Container>
-        );
+            <View style={{flex: 1, height: height - 110}}>
+                <Text>record tatlisko</Text>
+            </View>
+        )
     }
 }
 
-function
-
-bindAction(dispatch) {
+function bindAction(dispatch) {
     return {
         openDrawer: () => dispatch(openDrawer())
     };
@@ -114,6 +83,5 @@ const
 export default connect(mapStateToProps, bindAction)
 
 (
-    FooterTabs
-)
-;
+    Records
+);
