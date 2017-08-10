@@ -23,4 +23,7 @@ export default {
     height: 22,
     color: 'white',
   },
+  footerText: {
+    fontSize: 10,
+  }
 };

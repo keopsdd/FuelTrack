@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {TouchableOpacity, View} from "react-native";
+import {TouchableOpacity, View, Dimensions} from "react-native";
 import {connect} from "react-redux";
 import {
     Container,
@@ -8,11 +8,14 @@ import {
     Content,
     Text,
     Button,
-    Icon,
     Left,
     Right,
-    Body
+    Body,
+    Input
 } from "native-base";
+import ActionButton from 'react-native-action-button';
+import Icon from 'react-native-vector-icons/FontAwesome';
+const {height, width} = Dimensions.get('window');
 
 import styles from "./styles";
 
@@ -27,6 +30,30 @@ class FooterTabs extends Component {
         openDrawer: React.PropTypes.func
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            distance: '',
+            literPrice: '',
+            expense: '',
+            result: 0,
+            button: false
+        };
+    }
+
+    experimentFuelPrice() {
+        let literPrice = this.state.literPrice;
+        let distance = this.state.distance;
+        let spentFuel = 5;
+        if (this.state.button) {
+            let result = (distance / 100) * spentFuel * literPrice;
+            return result;
+        }
+        this.setState({
+            button:false
+        })
+    }
+
     renderTab() {
         let tabType = this.props.type;
         switch (tabType) {
@@ -40,9 +67,67 @@ class FooterTabs extends Component {
                     <Text>record tatlisko</Text>
                 </View>
                 break;
+            case "ADD":
+                return <View style={{flex: 1, height: height - 110}}>
+                    <Text>add tatlisko</Text>
+                    <View style={{height: height - 130}}>
+                        <ActionButton buttonColor="rgba(231,76,60,1)" position={'center'}>
+                            <ActionButton.Item buttonColor='#9b59b6' title="ADD FUEL"
+                                               onPress={() => console.log("notes tapped!")}>
+                                <Icon name="wrench" style={styles.actionButtonIcon}/>
+                            </ActionButton.Item>
+                            <ActionButton.Item buttonColor='#3498db' title="ADD EXPENSE" onPress={() => {
+                            }}>
+                                <Icon name="wrench" style={styles.actionButtonIcon}/>
+                            </ActionButton.Item>
+                        </ActionButton>
+                    </View>
+                </View>
+                break;
             case "SETTINGS":
                 return <View>
-                    <Text>settings tatlisko</Text>
+                    <Text>Hesaplama</Text>
+                    <Text>Mesafe Girin</Text>
+                    <Input style={{color: 'black', height: 30, width: 75, fontSize: 14, borderWidth: 1}}
+                           onChangeText={(distance) => this.setState({distance})}
+                           keyboardType='numeric'
+                           value={this.state.distance}
+                    />
+                    <Text>Benzin Litre Fiyati Girin</Text>
+                    <Input style={{color: 'black', height: 30, width: 75, fontSize: 14, borderWidth: 1}}
+                           onChangeText={(literPrice) => this.setState({literPrice})}
+                           keyboardType='numeric'
+                           value={this.state.literPrice}
+                    />
+                    <View style={{marginTop: 10}}>
+                        <Button onPress={ () => {
+                            this.setState({
+                                button: true
+                            })
+                        }}>
+                            <Text>Hesapla</Text>
+                        </Button>
+                    </View>
+                    <View>
+                        <Text>
+                            Aracinizin yakit masrafi: {this.experimentFuelPrice()} TL
+                        </Text>
+                    </View>
+                    <View style={{marginTop: 10}}>
+                        <Text>Ekstra masraf ekle</Text>
+                        <Input style={{color: 'black', height: 30, width: 75, fontSize: 14, borderWidth: 1}}
+                               onChangeText={(expense) => this.setState({expense})}
+                               keyboardType='numeric'
+                               value={this.state.expense}
+                        />
+                        <Button onPress={ () => {
+                            this.setState({
+                                button: true
+                            })
+                        }}>
+                            <Text>Hesapla</Text>
+                        </Button>
+                    </View>
                 </View>
                 break;
             case "ABOUT":

@@ -70,9 +70,12 @@ class Home extends Component {
                 return (<FooterTabs type="RECORDS"/>);
                 break;
             case 2:
-                return (<FooterTabs type="SETTINGS"/>);
+                return (<FooterTabs type="ADD"/>);
                 break;
             case 3:
+                return (<FooterTabs type="SETTINGS"/>);
+                break;
+            case 4:
                 return (<FooterTabs type="ABOUT"/>);
                 break;
         }
@@ -118,57 +121,53 @@ class Home extends Component {
                 <Content>
                     {this.renderSelectedTab()}
                 </Content>
-                <View style={{flex: 1}}>
-
-                    <ActionButton buttonColor="rgba(231,76,60,1)">
-                        <ActionButton.Item buttonColor='#9b59b6' title="ADD FUEL"
-                                           onPress={() => console.log("notes tapped!")}>
-                            <Icon name="wrench" style={styles.actionButtonIcon}/>
-                        </ActionButton.Item>
-                        <ActionButton.Item buttonColor='#3498db' title="ADD EXPENSE" onPress={() => {
-                        }}>
-                            <Icon name="wrench" style={styles.actionButtonIcon}/>
-                        </ActionButton.Item>
-                    </ActionButton>
-                </View>
                 <Footer>
                     <FooterTab>
                         <Button vertical active={ this.state.tabIndex == 0 ? true : false }
                                 onPress={ this.switchScreen.bind(this, 0) }
                         >
-
                             <Icon
                                 name='home'
-                                size={30}
+                                size={20}
                             />
-                            <Text>Home</Text>
+                            <Text style={styles.footerText}>Home</Text>
                         </Button>
                         <Button vertical active={ this.state.tabIndex == 1 ? true : false }
                                 onPress={ this.switchScreen.bind(this, 1) }
                         >
                             <Icon
                                 name='bars'
-                                size={30}
+                                size={20}
                             />
-                            <Text>Records</Text>
+                            <Text style={styles.footerText}>Records</Text>
                         </Button>
                         <Button vertical active={ this.state.tabIndex == 2 ? true : false }
                                 onPress={ this.switchScreen.bind(this, 2) }
                         >
+
                             <Icon
-                                name='cog'
-                                size={30}
+                                name='plus'
+                                size={20}
                             />
-                            <Text>Settings</Text>
+                            <Text style={styles.footerText}>Add</Text>
                         </Button>
                         <Button vertical active={ this.state.tabIndex == 3 ? true : false }
                                 onPress={ this.switchScreen.bind(this, 3) }
                         >
                             <Icon
-                                name='question-circle'
-                                size={30}
+                                name='cog'
+                                size={20}
                             />
-                            <Text>About</Text>
+                            <Text style={styles.footerText}>Settings</Text>
+                        </Button>
+                        <Button vertical active={ this.state.tabIndex == 4 ? true : false }
+                                onPress={ this.switchScreen.bind(this, 4) }
+                        >
+                            <Icon
+                                name='question-circle'
+                                size={20}
+                            />
+                            <Text style={styles.footerText}>About</Text>
                         </Button>
                     </FooterTab>
                 </Footer>
