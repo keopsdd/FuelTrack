@@ -34,75 +34,132 @@ class Settings extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            distance: '',
-            literPrice: '',
-            expense: '',
-            result: 0,
-            button: false
+            distance: 0,
+            literPrice: 0,
+            expense: 0,
+            button: false,
+            button1: false,
         };
     }
 
     experimentFuelPrice() {
-        let literPrice = this.state.literPrice;
-        let distance = this.state.distance;
-        let spentFuel = 5;
+        var literPrice = this.state.literPrice;
+        var distance = this.state.distance;
+        console.log(typeof distance)
+        var spentFuel = 5;
         if (this.state.button) {
-            let result = (distance / 100) * spentFuel * literPrice;
-            //result = 1000;
-            return result;
+            var result = (distance / 100) * spentFuel * literPrice;
+            return Math.round(result);
         }
-
         if (this.state.button)
             this.setState({
-                button: false
+                button: false,
+            })
+    }
+
+    experimentTotalPrice() {
+        var fuelPrice = this.experimentFuelPrice();
+        var expensePrice = parseInt(this.state.expense);
+console.log(typeof fuelPrice)
+console.log(typeof expensePrice)
+        if (this.state.button1) {
+            var totalPrice = (fuelPrice + expensePrice);
+            return Math.round(totalPrice);
+        }
+        if (this.state.button1)
+            this.setState({
+                button1: false
             })
     }
 
     render() {
         return (
-            <View>
-                <Text>Hesaplama</Text>
-                <Text>Mesafe Girin</Text>
-                <Input style={{color: 'black', height: 30, width: 75, fontSize: 14, borderWidth: 1}}
-                       onChangeText={(distance) => this.setState({distance})}
-                       keyboardType='numeric'
-                       value={this.state.distance}
-                />
-                <Text>Benzin Litre Fiyati Girin</Text>
-                <Input style={{color: 'black', height: 30, width: 75, fontSize: 14, borderWidth: 1}}
-                       onChangeText={(literPrice) => this.setState({literPrice})}
-                       keyboardType='numeric'
-                       value={this.state.literPrice}
-                />
-                <View style={{marginTop: 10}}>
-                    <Button onPress={() => {
-                        this.setState({
-                            button: true
-                        })
-                    }}>
-                        <Text>Hesapla</Text>
-                    </Button>
-                </View>
-                <View>
-                    <Text>
-                        Aracinizin yakit masrafi: {this.experimentFuelPrice()} TL
-                    </Text>
-                </View>
-                <View style={{marginTop: 10}}>
-                    <Text>Ekstra masraf ekle</Text>
-                    <Input style={{color: 'black', height: 30, width: 75, fontSize: 14, borderWidth: 1}}
-                           onChangeText={(expense) => this.setState({expense})}
-                           keyboardType='numeric'
-                           value={this.state.expense}
-                    />
-                    <Button onPress={() => {
-                        this.setState({
-                            button: true
-                        })
-                    }}>
-                        <Text>Hesapla</Text>
-                    </Button>
-                </View>
+            <View style={styles.container}>
+                <Container>
+                    <Content>
+                        <View>
+                            <Text style={styles.explainText}>Gideceginiz yolun yakit ve diger yol masraflarini
+                                hesaplayabilirsiniz</Text>
+                            <View style={{
+                                marginTop: 10,
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignItems: 'center'
+                            }}>
+                                <Text>Mesafe Girin:</Text>
+                                <View style={{width: 100}}>
+                                    <Input
+                                        style={{color: 'black', height: 30, width: 100, fontSize: 14, borderWidth: 1}}
+                                        onChangeText={(distance) => this.setState({distance})}
+                                        keyboardType='numeric'
+                                        value={this.state.distance}
+                                    />
+                                </View>
+                            </View>
+                            <View style={{
+                                marginTop: 10,
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignItems: 'center'
+                            }}>
+                                <Text>Benzin Litre Fiyati Girin:</Text>
+                                <View style={{width: 100}}>
+                                    <Input
+                                        style={{color: 'black', height: 30, width: 100, fontSize: 14, borderWidth: 1}}
+                                        onChangeText={(literPrice) => this.setState({literPrice})}
+                                        keyboardType='numeric'
+                                        value={this.state.literPrice}
+                                    />
+                                </View>
+                            </View>
+                            <View style={{marginTop: 10}}>
+                                <Button style={{height: 40, backgroundColor: '#031499'}} onPress={() => {
+                                    this.setState({
+                                        button: true
+                                    })
+                                }}>
+                                    <Text>Hesapla</Text>
+                                </Button>
+                            </View>
+                            <View style={{marginTop: 10}}>
+                                <Text>
+                                    Aracinizin yakit masrafi: {this.experimentFuelPrice()} TL
+                                </Text>
+                            </View>
+                            <View style={{
+                                marginTop: 10,
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignItems: 'center'
+                            }}>
+                                <Text>Ekstra masraf ekle:</Text>
+                                <View style={{width: 100}}>
+                                    <Input
+                                        style={{color: 'black', height: 30, width: 100, fontSize: 14, borderWidth: 1}}
+                                        onChangeText={(expense) => this.setState({expense})}
+                                        keyboardType='numeric'
+                                        value={this.state.expense}
+                                    />
+                                </View>
+                            </View>
+                            <View style={{marginTop: 10}}>
+                                <Button
+                                    style={{height: 40, backgroundColor: '#031499'}} onPress={() => {
+                                        this.setState({
+                                            button1: true
+                                        })
+                                    }}>
+                                    <Text>Hesapla</Text>
+                                </Button>
+                            </View>
+                            <View style={{marginTop: 10}}>
+                                <Text>
+                                    Aracinizin toplam yol masrafi: {(this.experimentTotalPrice())} TL
+                                </Text>
+                            </View>
+                        </View>
+                    </Content>
+                </Container>
             </View>
         )
     }

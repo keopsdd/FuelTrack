@@ -86,7 +86,7 @@ class Home extends Component {
         console.log(DrawNav, "786785786");
         return (
             <Container style={styles.container}>
-                <Header>
+                <Header style={{backgroundColor: '#031499'}}>
                     <Left>
                         {/*
                          <Button
@@ -106,7 +106,7 @@ class Home extends Component {
                          */}
                     </Left>
                     <Body>
-                    <Title>Benzin Takip</Title>
+                    <Title style={{color: 'white'}}>Benzin Takip</Title>
                     </Body>
                     <Right>
                         {/*
