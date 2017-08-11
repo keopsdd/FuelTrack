@@ -142,16 +142,18 @@ class Home extends Component {
                             />
                             <Text style={styles.footerText}>Records</Text>
                         </Button>
-                        <Button vertical active={ this.state.tabIndex == 2 ? true : false }
-                                onPress={ this.switchScreen.bind(this, 2) }
-                        >
-
-                            <Icon
-                                name='plus'
-                                size={20}
-                            />
-                            <Text style={styles.footerText}>Add</Text>
-                        </Button>
+                        <Button style={{marginBottom: 75}}>
+                        <ActionButton buttonColor="rgba(231,76,60,1)" position={'center'}>
+                            <ActionButton.Item buttonColor='#9b59b6' title="ADD FUEL"
+                                               onPress={() => console.log("notes tapped!")}>
+                                <Icon name="wrench" style={styles.actionButtonIcon}/>
+                            </ActionButton.Item>
+                            <ActionButton.Item buttonColor='#3498db' title="ADD EXPENSE" onPress={() => {
+                            }}>
+                                <Icon name="wrench" style={styles.actionButtonIcon}/>
+                            </ActionButton.Item>
+                        </ActionButton>
+                            </Button>
                         <Button vertical active={ this.state.tabIndex == 3 ? true : false }
                                 onPress={ this.switchScreen.bind(this, 3) }
                         >
