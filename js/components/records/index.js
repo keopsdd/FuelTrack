@@ -10,8 +10,8 @@ import {
     Button,
     Left,
     Right,
-    Body,
-    Input
+    Tab,
+    Tabs
 } from "native-base";
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -60,9 +60,12 @@ class Records extends Component {
 
     render() {
         return (
-            <View style={{flex: 1, height: height - 110}}>
-                <Text>record tatlisko</Text>
-            </View>
+            <Tabs>
+                <Tab heading="Fuel">
+                </Tab>
+                <Tab heading="Expense">
+                </Tab>
+            </Tabs>
         )
     }
 }
