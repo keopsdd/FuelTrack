@@ -14,6 +14,16 @@ import {
 import { Field, reduxForm } from "redux-form";
 import { setUser } from "../../actions/user";
 import styles from "./styles";
+import * as firebase from "firebase";
+
+firebase.initializeApp({
+  apiKey: "AIzaSyA29FldepWaIgYA-0CvJmiGWWStz6CSc5M",
+  authDomain: "benzintakip-5f005.firebaseapp.com",
+  databaseURL: "https://benzintakip-5f005.firebaseio.com",
+  projectId: "benzintakip-5f005",
+  storageBucket: "benzintakip-5f005.appspot.com",
+  messagingSenderId: "30644784413"
+});
 
 const background = require("../../../images/shadow.png");
 
@@ -52,6 +62,7 @@ class Login extends Component {
     super(props);
     this.state = {
       name: ""
+
     };
     this.renderInput = this.renderInput.bind(this);
   }
@@ -59,6 +70,24 @@ class Login extends Component {
   setUser(name) {
     this.props.setUser(name);
   }
+
+  async signup(email, pass) {
+
+    try {
+      await firebase.auth()
+          .createUserWithEmailAndPassword(email, pass);
+
+      console.log("Account created");
+
+      // Navigate to the Home page, the user is auto logged in
+
+    } catch (error) {
+      console.log(error.toString())
+    }
+
+  }
+
+
   renderInput({
     input,
     label,
@@ -91,18 +120,18 @@ class Login extends Component {
       <Container>
         <View style={styles.container}>
           <Content>
-            <Image source={background} style={styles.shadow}>
               <View style={styles.bg}>
                 <Field name="email" component={this.renderInput} />
                 <Field name="password" component={this.renderInput} />
                 <Button
                   style={styles.btn}
+                  //onPress={() => this.signup('abc@hotmail.com','123456')}
                   onPress={() => this.props.navigation.navigate("Home")}
+
                 >
                   <Text>Login</Text>
                 </Button>
               </View>
-            </Image>
           </Content>
         </View>
       </Container>

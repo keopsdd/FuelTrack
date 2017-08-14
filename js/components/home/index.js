@@ -74,10 +74,10 @@ class Home extends Component {
                 return (<FooterTabs type="ADD"/>);
                 break;
             case 3:
-                return (<FooterTabs type="SETTINGS"/>);
+                return (<FooterTabs type="EXTRAS"/>);
                 break;
             case 4:
-                return (<FooterTabs type="ABOUT"/>);
+                return (<FooterTabs type="SETTINGS"/>);
                 break;
         }
     }
@@ -159,19 +159,19 @@ class Home extends Component {
                                 onPress={ this.switchScreen.bind(this, 3) }
                         >
                             <Icon
-                                name='cog'
+                                name='question-circle'
                                 size={20}
                             />
-                            <Text style={styles.footerText}>Settings</Text>
+                            <Text style={styles.footerText}>Extras</Text>
                         </Button>
                         <Button vertical active={ this.state.tabIndex == 4 ? true : false }
                                 onPress={ this.switchScreen.bind(this, 4) }
                         >
                             <Icon
-                                name='question-circle'
+                                name='cog'
                                 size={20}
                             />
-                            <Text style={styles.footerText}>About</Text>
+                            <Text style={styles.footerText}>Settings</Text>
                         </Button>
                     </FooterTab>
                 </Footer>

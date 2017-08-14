@@ -17,7 +17,7 @@ import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Settings from '../settings'
 import Add from '../add'
-import About from '../about'
+import Extras from '../extras'
 import Record from '../records'
 
 const {height, width} = Dimensions.get('window');
@@ -76,8 +76,8 @@ class FooterTabs extends Component {
             case "SETTINGS":
                 return <Settings/>
                 break;
-            case "ABOUT":
-                return <About/>
+            case "EXTRAS":
+                return <Extras/>
                 break;
         }
     }

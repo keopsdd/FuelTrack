@@ -20,7 +20,7 @@ const {height, width} = Dimensions.get('window');
 
 import styles from "./styles";
 
-class About extends Component {
+class Extras extends Component {
     static navigationOptions = {
         header: null
     };
@@ -83,5 +83,5 @@ const
 export default connect(mapStateToProps, bindAction)
 
 (
-    About
+    Extras
 );
