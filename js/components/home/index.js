@@ -146,7 +146,7 @@ class Home extends Component {
                             <ActionButton buttonColor="rgba(231,76,60,1)" position={'center'} spacing={10}
                                           degrees={135}>
                                 <ActionButton.Item buttonColor='#9b59b6' title="ADD FUEL"
-                                                   onPress={() => console.log("notes tapped!")} spaceBetween={-120}>
+                                                   onPress={() => this.props.navigation.navigate("Add")} spaceBetween={-120}>
                                     <Icon name="wrench" style={styles.actionButtonIcon}/>
                                 </ActionButton.Item>
                                 <ActionButton.Item buttonColor='#3498db' title="ADD EXPENSE" onPress={() => {

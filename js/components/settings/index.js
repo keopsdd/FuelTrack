@@ -60,8 +60,8 @@ class Settings extends Component {
     experimentTotalPrice() {
         var fuelPrice = this.experimentFuelPrice();
         var expensePrice = parseInt(this.state.expense);
-console.log(typeof fuelPrice)
-console.log(typeof expensePrice)
+//console.log(typeof fuelPrice)
+//console.log(typeof expensePrice)
         if (this.state.button1) {
             var totalPrice = (fuelPrice + expensePrice);
             return Math.round(totalPrice);

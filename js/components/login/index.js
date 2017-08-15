@@ -25,8 +25,6 @@ firebase.initializeApp({
   messagingSenderId: "30644784413"
 });
 
-const background = require("../../../images/shadow.png");
-
 const validate = values => {
   const error = {};
   error.email = "";
@@ -125,9 +123,8 @@ class Login extends Component {
                 <Field name="password" component={this.renderInput} />
                 <Button
                   style={styles.btn}
-                  //onPress={() => this.signup('abc@hotmail.com','123456')}
+                  //onPress={() => this.signup('abcd@hotmail.com','123456')}
                   onPress={() => this.props.navigation.navigate("Home")}
-
                 >
                   <Text>Login</Text>
                 </Button>

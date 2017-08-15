@@ -8,4 +8,11 @@ export default{
     container: {
         backgroundColor: '#FBFAFA',
     },
+    explainText: {
+        fontSize: 12
+    },
+    titleText: {
+        fontSize: 14,
+
+    }
 };
