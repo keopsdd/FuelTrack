@@ -146,11 +146,11 @@ class Home extends Component {
                             <ActionButton buttonColor="rgba(231,76,60,1)" position={'center'} spacing={10}
                                           degrees={135}>
                                 <ActionButton.Item buttonColor='#9b59b6' title="ADD FUEL"
-                                                   onPress={() => this.props.navigation.navigate("Add")} spaceBetween={-120}>
+                                                   onPress={() => this.props.navigation.navigate("AddFuel")} spaceBetween={-120}>
                                     <Icon name="wrench" style={styles.actionButtonIcon}/>
                                 </ActionButton.Item>
-                                <ActionButton.Item buttonColor='#3498db' title="ADD EXPENSE" onPress={() => {
-                                }} spaceBetween={-120}>
+                                <ActionButton.Item buttonColor='#3498db' title="ADD EXPENSE"
+                                                   onPress={() => this.props.navigation.navigate("AddExpense")} spaceBetween={-120}>
                                     <Icon name="wrench" style={styles.actionButtonIcon}/>
                                 </ActionButton.Item>
                             </ActionButton>
@@ -159,7 +159,7 @@ class Home extends Component {
                                 onPress={ this.switchScreen.bind(this, 3) }
                         >
                             <Icon
-                                name='question-circle'
+                                name='pencil-square-o'
                                 size={20}
                             />
                             <Text style={styles.footerText}>Extras</Text>

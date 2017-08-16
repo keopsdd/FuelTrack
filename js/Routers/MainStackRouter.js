@@ -5,7 +5,8 @@ import Home from "../components/home/";
 import BlankPage from "../components/blankPage";
 import HomeDrawerRouter from "./HomeDrawerRouter";
 import FooterTabs from "../components/footerTabs";
-import Add from "../components/add";
+import AddFuel from "../components/add/addFuel";
+import AddExpense from "../components/add/addExpense";
 import {StackNavigator} from "react-navigation";
 import {Header, Left, Button, Icon, Body, Title, Right} from "native-base";
 HomeDrawerRouter.navigationOptions = ({navigation}) => ({
@@ -17,5 +18,6 @@ export default (StackNav = StackNavigator({
     Home: {screen: Home},
     BlankPage: {screen: BlankPage},
     FooterTabs: {screen: FooterTabs},
-    Add: {screen: Add}
+    AddFuel: {screen: AddFuel},
+    AddExpense: {screen: AddExpense},
 }));

@@ -23,7 +23,7 @@ const {height, width} = Dimensions.get('window');
 
 import styles from "./styles";
 
-class Add extends Component {
+class AddExpense extends Component {
     static navigationOptions = {
         header: null
     };
@@ -40,8 +40,7 @@ class Add extends Component {
         this.state = {
             user: '',
             username: [],
-            price: '',
-            record: '',
+            recordPrice: '',
             records: [],
             userId: 4
         };
@@ -49,26 +48,15 @@ class Add extends Component {
         this.sendRecord = this.sendRecord.bind(this);
     }
 
-    componentWillMount() {
-        this.getRecord();
-    }
-
-    getRecord() {
-        firebase.database().ref("/user/").on('value', (snapshot) => {
-
-            this.setState({user: snapshot.val()})
-        });
-    }
-
     sendRecord() {
         var id = this.state.userId;
         var idid = id +1;
         console.log(idid)
-        firebase.database().ref("/user/"+idid).set({
+        firebase.database().ref("/expense/"+2).set({
             username: 'mehmet',
             email: 'deneme1@hotmail.com',
             when: new Date().getTime(),
-            record: this.state.record
+            recordPrice: this.state.recordPrice
         });
     }
 
@@ -86,13 +74,6 @@ class Add extends Component {
 
      */
 
-    renderRow(item) {
-        return(
-            <View>
-                <Text>{item.username}</Text>
-            </View>
-        )
-    }
     render() {
         console.log(this.state.user)
 
@@ -118,7 +99,7 @@ class Add extends Component {
                          */}
                     </Left>
                     <Body>
-                    <Title style={{color: 'white'}}>Add Fuel</Title>
+                    <Title style={{color: 'white'}}>Add Expense</Title>
                     </Body>
                     <Right>
                         {/*
@@ -132,13 +113,13 @@ class Add extends Component {
                     </Right>
                 </Header>
                 <Content>
-                    <Text>Benzin ekle</Text>
+                    <Text>Masraf ekle</Text>
                     <View style={{width: 100}}>
                         <Input
                             style={{color: 'black', height: 30, width: 100, fontSize: 14, borderWidth: 1}}
-                            onChangeText={(t) => this.setState({record: t})}
+                            onChangeText={(t) => this.setState({recordPrice: t})}
                             keyboardType='numeric'
-                            value={this.state.record}
+                            value={this.state.recordPrice}
                         />
                     </View>
                     <Button
@@ -147,10 +128,6 @@ class Add extends Component {
                     >
                         <Text>data yolla</Text>
                     </Button>
-                    <View>
-                        <List dataArray={this.state.user} removeClippedSubviews={false}
-                              renderRow={(item) => this.renderRow(item)}/>
-                    </View>
                 </Content>
             </Container>
         )
@@ -173,5 +150,5 @@ const
 export default connect(mapStateToProps, bindAction)
 
 (
-    Add
+    AddExpense
 );

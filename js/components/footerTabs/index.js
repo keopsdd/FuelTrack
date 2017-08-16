@@ -16,7 +16,6 @@ import {
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Settings from '../settings'
-import Add from '../add'
 import Extras from '../extras'
 import Record from '../records'
 

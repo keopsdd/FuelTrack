@@ -1,20 +1,22 @@
 import React, {Component} from "react";
-import {TouchableOpacity, View, Dimensions} from "react-native";
+import {TouchableOpacity, View, Dimensions, InteractionManager} from "react-native";
 import {connect} from "react-redux";
 import {
     Container,
-    Header,
-    Title,
+    CardItem,
+    Card,
     Content,
     Text,
     Button,
     Left,
-    Right,
+    List,
     Tab,
     Tabs
 } from "native-base";
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+import * as firebase from "firebase";
 
 const {height, width} = Dimensions.get('window');
 
@@ -34,40 +36,89 @@ class Records extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            distance: '',
-            literPrice: '',
-            expense: '',
-            result: 0,
-            button: false
+            user: '',
+            expense: [],
+            fuel: [],
+            username: [],
+            recordPrice: '',
+            records: [],
+            userId: 4
         };
     }
 
-    experimentFuelPrice() {
-        let literPrice = this.state.literPrice;
-        let distance = this.state.distance;
-        let spentFuel = 5;
-        if (this.state.button) {
-            let result = (distance / 100) * spentFuel * literPrice;
-            //result = 1000;
-            return result;
-        }
+    componentDidMount() {
+        this.getExpenseRecord();
+        this.getFuelRecord()
+    }
 
-        if (this.state.button)
-            this.setState({
-                button: false
-            })
+    getExpenseRecord() {
+        firebase.database().ref("/expense/").on('value', (snapshot) => {
+
+            this.setState({expense: snapshot.val()})
+        });
+    }
+
+    getFuelRecord() {
+        firebase.database().ref("/fuel/").on('value', (snapshot) => {
+
+            this.setState({fuel: snapshot.val()})
+        });
+    }
+
+    renderRow(item) {
+        var d = new Date(item.when);
+        return (
+            <View>
+                <Card>
+                    <CardItem>
+                        <View style={{flexDirection: 'column'}}>
+                            <Text>Arac Plaka No: {item.username}</Text>
+                            <Text>Yapilan Masraf: {item.recordPrice}</Text>
+                            <Text>Masraf Tarihi: {d.toLocaleDateString()}</Text>
+                        </View>
+                    </CardItem>
+                </Card>
+            </View>
+        )
+    }
+
+    renderRow1(item) {
+        var d = new Date(item.when);
+        return (
+            <View>
+                <Card>
+                    <CardItem>
+                        <View style={{flexDirection: 'column'}}>
+                            <Text>Arac Plaka No: {item.username}</Text>
+                            <Text>Alinan Yakit Fiyati: {item.recordPrice}</Text>
+                            <Text>Benzinin Litre Fiyati: </Text>
+                            <Text>Alinan Tarih: {d.toLocaleDateString()}</Text>
+                        </View>
+                    </CardItem>
+                </Card>
+            </View>
+        )
     }
 
     render() {
+        console.log('asdasdasd', this.state.fuel, this.state.expense)
+
         return (
             <Container style={styles.container}>
                 <Tabs>
                     <Tab heading="Fuel">
-                        <View>
-                            <Text>datalar</Text>
-                        </View>
+                        <Content>
+                            <Text>Onceki kayitlariniz:</Text>
+                            <List dataArray={this.state.fuel} removeClippedSubviews={false}
+                                  renderRow={(item) => this.renderRow1(item)}/>
+                        </Content>
                     </Tab>
                     <Tab heading="Expense">
+                        <Content>
+                            <Text>Onceki kayitlariniz:</Text>
+                            <List dataArray={this.state.expense} removeClippedSubviews={false}
+                                  renderRow={(item) => this.renderRow(item)}/>
+                        </Content>
                     </Tab>
                 </Tabs>
             </Container>
