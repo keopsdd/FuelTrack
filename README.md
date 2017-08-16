@@ -16,6 +16,7 @@ No need of reinventing the wheel. To have immediately something to continue buil
 
 This is a starter kit that you can install on the fly to get the basic plumbing of React Native with NativeBase, Redux and CodePush.
 
+
 *Find out more Free [React JS Themes](http://www.startreact.com/) and [React Native Themes](https://www.startreact.com/).*
 
 # Content
