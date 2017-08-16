@@ -23,7 +23,6 @@ if (!firebase.apps.length) {
         databaseURL: "https://benzintakip-5f005.firebaseio.com",
         projectId: "benzintakip-5f005",
         storageBucket: "benzintakip-5f005.appspot.com",
-        messagingSenderId: "30644784413"
     });
 }
 
@@ -63,29 +62,12 @@ class Login extends Component {
         super(props);
         this.state = {
             name: ""
-
         };
         this.renderInput = this.renderInput.bind(this);
     }
 
     setUser(user) {
         this.props.setUser(user);
-    }
-
-    async signup(email, pass) {
-
-        try {
-            await firebase.auth()
-                .createUserWithEmailAndPassword(email, pass);
-
-            console.log("Account created");
-
-            // Navigate to the Home page, the user is auto logged in
-
-        } catch (error) {
-            console.log(error.toString())
-        }
-
     }
 
     async login(email, password) {
@@ -135,12 +117,12 @@ class Login extends Component {
     }
 
     renderInput({
-                    input,
-                    label,
-                    type,
-                    meta: {touched, error, warning},
-                    inputProps
-                }) {
+        input,
+        label,
+        type,
+        meta: {touched, error, warning},
+        inputProps
+    }) {
         var hasError = false;
         if (error !== undefined) {
             hasError = true;
@@ -154,9 +136,9 @@ class Login extends Component {
                 />
                 {hasError
                     ? <Item style={{borderColor: "transparent"}}>
-                        <Icon active style={{color: "red", marginTop: 5}} name="bug"/>
-                        <Text style={{fontSize: 15, color: "red"}}>{error}</Text>
-                    </Item>
+                    <Icon active style={{color: "red", marginTop: 5}} name="bug"/>
+                    <Text style={{fontSize: 15, color: "red"}}>{error}</Text>
+                </Item>
                     : <Text/>}
             </Item>
         );
@@ -169,6 +151,8 @@ class Login extends Component {
                 <View style={styles.container}>
                     <Content>
                         <View style={styles.bg}>
+                            <Field name="email" component={this.renderInput}/>
+                            <Field name="password" component={this.renderInput}/>
                             <Button
                                 style={styles.btn}
                                 //onPress={() => this.signup('abcd@hotmail.com','123456')}
@@ -176,6 +160,14 @@ class Login extends Component {
                                 //onPress={() => this.props.navigation.navigate("Home")}
                             >
                                 <Text>Login</Text>
+                            </Button>
+                            <Button
+                                style={styles.btn}
+                                //onPress={() => this.signup('abcd@hotmail.com','123456')}
+                                onPress={() => this.props.navigation.navigate("SignUp")}
+                                //onPress={() => this.props.navigation.navigate("Home")}
+                            >
+                                <Text>SignUp</Text>
                             </Button>
                         </View>
                     </Content>
@@ -185,11 +177,19 @@ class Login extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        user:(state),
-    }
-}
-const Login = connect(mapStateToProps)(Login);
 
-export default Login;
+const LoginSwag = reduxForm(
+    {
+        form: "test",
+        validate
+    },
+    function bindActions(dispatch) {
+        return {
+            setUser: name => dispatch(setUser(name))
+        };
+    }
+)(Login);
+LoginSwag.navigationOptions = {
+    header: null
+};
+export default LoginSwag;

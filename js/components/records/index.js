@@ -60,12 +60,17 @@ class Records extends Component {
 
     render() {
         return (
-            <Tabs>
-                <Tab heading="Fuel">
-                </Tab>
-                <Tab heading="Expense">
-                </Tab>
-            </Tabs>
+            <Container style={styles.container}>
+                <Tabs>
+                    <Tab heading="Fuel">
+                        <View>
+                            <Text>datalar</Text>
+                        </View>
+                    </Tab>
+                    <Tab heading="Expense">
+                    </Tab>
+                </Tabs>
+            </Container>
         )
     }
 }

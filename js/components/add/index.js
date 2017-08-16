@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {TouchableOpacity, View, Dimensions} from "react-native";
+import {TouchableOpacity, View, Dimensions, ListView} from "react-native";
 import {connect} from "react-redux";
 import {
     Container,
@@ -11,7 +11,8 @@ import {
     Left,
     Right,
     Body,
-    Input
+    Input,
+    List
 } from "native-base";
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -37,18 +38,37 @@ class Add extends Component {
         super(props);
         this.database = firebase.database();
         this.state = {
+            user: '',
+            username: [],
             price: '',
             record: '',
             records: [],
+            userId: 4
         };
         this.recordsRef = this.database.ref('records');
         this.sendRecord = this.sendRecord.bind(this);
     }
 
+    componentWillMount() {
+        this.getRecord();
+    }
+
+    getRecord() {
+        firebase.database().ref("/user/").on('value', (snapshot) => {
+
+            this.setState({user: snapshot.val()})
+        });
+    }
+
     sendRecord() {
-        firebase.database().ref('users/' + 100).set({
-            username: 'ahmet',
+        var id = this.state.userId;
+        var idid = id +1;
+        console.log(idid)
+        firebase.database().ref("/user/"+idid).set({
+            username: 'mehmet',
             email: 'deneme1@hotmail.com',
+            when: new Date().getTime(),
+            record: this.state.record
         });
     }
 
@@ -65,7 +85,17 @@ class Add extends Component {
      /*}
 
      */
+
+    renderRow(item) {
+        return(
+            <View>
+                <Text>{item.username}</Text>
+            </View>
+        )
+    }
     render() {
+        console.log(this.state.user)
+
         return (
             <Container style={styles.container}>
                 <Header style={{backgroundColor: '#031499'}}>
@@ -117,6 +147,10 @@ class Add extends Component {
                     >
                         <Text>data yolla</Text>
                     </Button>
+                    <View>
+                        <List dataArray={this.state.user} removeClippedSubviews={false}
+                              renderRow={(item) => this.renderRow(item)}/>
+                    </View>
                 </Content>
             </Container>
         )

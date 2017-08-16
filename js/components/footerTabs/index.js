@@ -73,11 +73,11 @@ class FooterTabs extends Component {
             case "RECORDS":
                 return <Record/>
                 break;
-            case "SETTINGS":
-                return <Settings/>
-                break;
             case "EXTRAS":
                 return <Extras/>
+                break;
+            case "SETTINGS":
+                return <Settings/>
                 break;
         }
     }

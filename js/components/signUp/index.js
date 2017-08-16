@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { Image } from "react-native";
-import { connect } from "react-redux";
+import React, {Component} from "react";
+import {Image} from "react-native";
+import {connect} from "react-redux";
 import {
     Container,
     Content,
@@ -11,19 +11,21 @@ import {
     View,
     Text
 } from "native-base";
-import { Field, reduxForm } from "redux-form";
-import { setUser } from "../../actions/user";
+import {Field, reduxForm} from "redux-form";
+import {setUser} from "../../actions/user";
 import styles from "./styles";
 import * as firebase from "firebase";
 
-firebase.initializeApp({
-    apiKey: "AIzaSyA29FldepWaIgYA-0CvJmiGWWStz6CSc5M",
-    authDomain: "benzintakip-5f005.firebaseapp.com",
-    databaseURL: "https://benzintakip-5f005.firebaseio.com",
-    projectId: "benzintakip-5f005",
-    storageBucket: "benzintakip-5f005.appspot.com",
-    messagingSenderId: "30644784413"
-});
+if (!firebase.apps.length) {
+    firebase.initializeApp({
+        apiKey: "AIzaSyA29FldepWaIgYA-0CvJmiGWWStz6CSc5M",
+        authDomain: "benzintakip-5f005.firebaseapp.com",
+        databaseURL: "https://benzintakip-5f005.firebaseio.com",
+        projectId: "benzintakip-5f005",
+        storageBucket: "benzintakip-5f005.appspot.com",
+        messagingSenderId: "30644784413"
+    });
+}
 
 const validate = values => {
     const error = {};
@@ -52,10 +54,11 @@ const validate = values => {
     return error;
 };
 
-class Login extends Component {
+class SignUp extends Component {
     static propTypes = {
         setUser: React.PropTypes.func
     };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -90,7 +93,7 @@ class Login extends Component {
         input,
         label,
         type,
-        meta: { touched, error, warning },
+        meta: {touched, error, warning},
         inputProps
     }) {
         var hasError = false;
@@ -99,39 +102,33 @@ class Login extends Component {
         }
         return (
             <Item error={hasError}>
-                <Icon active name={input.name === "email" ? "person" : "unlock"} />
+                <Icon active name={input.name === "email" ? "person" : "unlock"}/>
                 <Input
                     placeholder={input.name === "email" ? "EMAIL" : "PASSWORD"}
                     {...input}
                 />
                 {hasError
-                    ? <Item style={{ borderColor: "transparent" }}>
-                    <Icon active style={{ color: "red", marginTop: 5 }} name="bug" />
-                    <Text style={{ fontSize: 15, color: "red" }}>{error}</Text>
+                    ? <Item style={{borderColor: "transparent"}}>
+                    <Icon active style={{color: "red", marginTop: 5}} name="bug"/>
+                    <Text style={{fontSize: 15, color: "red"}}>{error}</Text>
                 </Item>
                     : <Text />}
             </Item>
         );
     }
+
     render() {
         return (
             <Container>
                 <View style={styles.container}>
                     <Content>
                         <View style={styles.bg}>
-                            <Field name="email" component={this.renderInput} />
-                            <Field name="password" component={this.renderInput} />
+                            <Field name="email" component={this.renderInput}/>
+                            <Field name="password" component={this.renderInput}/>
                             <Button
                                 style={styles.btn}
                                 //onPress={() => this.signup('abcd@hotmail.com','123456')}
                                 onPress={() => this.props.navigation.navigate("Home")}
-                            >
-                                <Text>Login</Text>
-                            </Button>
-                            <Button
-                                style={styles.btn}
-                                onPress={() => this.signup('abcd@hotmail.com','123456')}
-                                //onPress={() => this.props.navigation.navigate("Home")}
                             >
                                 <Text>SignUp</Text>
                             </Button>
@@ -152,7 +149,7 @@ const LoginSwag = reduxForm(
             setUser: name => dispatch(setUser(name))
         };
     }
-)(Login);
+)(SignUp);
 LoginSwag.navigationOptions = {
     header: null
 };
