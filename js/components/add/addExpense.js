@@ -45,18 +45,17 @@ class AddExpense extends Component {
             userId: 4
         };
         this.recordsRef = this.database.ref('records');
-        this.sendRecord = this.sendRecord.bind(this);
+        this.sendExpenseRecord = this.sendExpenseRecord.bind(this);
     }
 
-    sendRecord() {
-        var id = this.state.userId;
-        var idid = id +1;
-        console.log(idid)
-        firebase.database().ref("/expense/"+2).set({
-            username: 'mehmet',
-            email: 'deneme1@hotmail.com',
+    sendExpenseRecord() {
+        var uid = firebase.auth().currentUser.uid;
+
+        firebase.database().ref("/user/" + uid + "/record/plate1/expense/" + "/detail/" + 3).set({
+            description: 'bole bole harcadik',
+            expenseType: 'kopru',
             when: new Date().getTime(),
-            recordPrice: this.state.recordPrice
+            expensePrice: this.state.recordPrice
         });
     }
 
@@ -124,7 +123,7 @@ class AddExpense extends Component {
                     </View>
                     <Button
                         style={styles.btn}
-                        onPress={() => this.sendRecord()}
+                        onPress={() => this.sendExpenseRecord()}
                     >
                         <Text>data yolla</Text>
                     </Button>

@@ -45,18 +45,19 @@ class AddFuel extends Component {
             userId: 4
         };
         this.recordsRef = this.database.ref('records');
-        this.sendRecord = this.sendRecord.bind(this);
+        this.sendFuelRecord = this.sendFuelRecord.bind(this);
     }
 
-    sendRecord() {
-        var id = this.state.userId;
-        var idid = id +1;
-        console.log(idid)
-        firebase.database().ref("/fuel/"+2).set({
-            username: 'mehmet',
-            email: 'deneme1@hotmail.com',
+    sendFuelRecord() {
+        var uid = firebase.auth().currentUser.uid;
+
+        firebase.database().ref("/user/" + uid + "/record/plate1/fuel/" + "/detail/" + 0).set({
             when: new Date().getTime(),
-            recordPrice: this.state.recordPrice
+            fuelPrice: this.state.recordPrice,
+            where: '',
+            priceOfLiter: 5,
+            amount: '',
+            distance: ''
         });
     }
 
@@ -124,7 +125,7 @@ class AddFuel extends Component {
                     </View>
                     <Button
                         style={styles.btn}
-                        onPress={() => this.sendRecord()}
+                        onPress={() => this.sendFuelRecord()}
                     >
                         <Text>data yolla</Text>
                     </Button>

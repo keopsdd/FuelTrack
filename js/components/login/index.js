@@ -66,54 +66,19 @@ class Login extends Component {
         this.renderInput = this.renderInput.bind(this);
     }
 
-    setUser(user) {
-        this.props.setUser(user);
-    }
-
-    async login(email, password) {
-        console.log(
-            this.props
-        );
-        firebase.auth().onAuthStateChanged(function (user) {
-            if (user) {
-                console.log("user:", user);
-                // User is signed in.
-            } else {
-                // No user is signed in.
-            }
-        });
-
+    async login(email, pass) {
         try {
-            let user = await firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
-                // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                console.log("hata var");
-            });
-            if (user) {
-                let userInfo = {
-                    displayName: user.displayName,
-                    email: user.email,
-                    emailVerified: user.emailVerified,
-                    photoURL: user.photoURL,
-                    isAnonymous: user.isAnonymous,
-                    uid: user.uid,
-                    providerData: user.providerData,
-                }
-                this.setUser(user);
-            }
-            console.log("result:", result);
-            console.log("Logged In!");
-            console.log(firebase.auth().currentUser);
-            //this.props.navigation.navigate("Home")
+            await firebase.auth()
+                .signInWithEmailAndPassword(email, pass);
 
+            console.log("Logged In!");
+
+            this.props.navigation.navigate("Home")
             // Navigate to the Home page
 
-
         } catch (error) {
-            console.log("catch hata:", error.toString())
+            console.log(error.toString())
         }
-
     }
 
     renderInput({
@@ -145,7 +110,7 @@ class Login extends Component {
     }
 
     render() {
-        console.log(this.props);
+        console.log('asd', this.props);
         return (
             <Container>
                 <View style={styles.container}>
@@ -156,7 +121,7 @@ class Login extends Component {
                             <Button
                                 style={styles.btn}
                                 //onPress={() => this.signup('abcd@hotmail.com','123456')}
-                                onPress={() => this.login('abcd@hotmail.com', '123456')}
+                                onPress={() => this.login('erdinozgen@gmail.com', '123456')}
                                 //onPress={() => this.props.navigation.navigate("Home")}
                             >
                                 <Text>Login</Text>

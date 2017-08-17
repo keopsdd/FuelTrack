@@ -62,14 +62,12 @@ class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: ""
-
+            name: "",
+            email: '',
+            password: ''
         };
         this.renderInput = this.renderInput.bind(this);
-    }
-
-    setUser(name) {
-        this.props.setUser(name);
+        this.renderInputPassword = this.renderInputPassword.bind(this);
     }
 
     async signup(email, pass) {
@@ -79,7 +77,7 @@ class SignUp extends Component {
                 .createUserWithEmailAndPassword(email, pass);
 
             console.log("Account created");
-
+            this.props.navigation.navigate("Home")
             // Navigate to the Home page, the user is auto logged in
 
         } catch (error) {
@@ -87,7 +85,6 @@ class SignUp extends Component {
         }
 
     }
-
 
     renderInput({
         input,
@@ -106,6 +103,36 @@ class SignUp extends Component {
                 <Input
                     placeholder={input.name === "email" ? "EMAIL" : "PASSWORD"}
                     {...input}
+                    onChangeText={(t) => this.setState({email: t})}
+                />
+                {hasError
+                    ? <Item style={{borderColor: "transparent"}}>
+                    <Icon active style={{color: "red", marginTop: 5}} name="bug"/>
+                    <Text style={{fontSize: 15, color: "red"}}>{error}</Text>
+                </Item>
+                    : <Text />}
+            </Item>
+        );
+    }
+
+    renderInputPassword({
+        input,
+        label,
+        type,
+        meta: {touched, error, warning},
+        inputProps
+    }) {
+        var hasError = false;
+        if (error !== undefined) {
+            hasError = true;
+        }
+        return (
+            <Item error={hasError}>
+                <Icon active name={input.name === "password" ? "unlock" : "person"}/>
+                <Input
+                    placeholder={input.name === "password" ? "PASSWORD" : "EMAIL"}
+                    {...input}
+                    onChangeText={(t) => this.setState({password: t})}
                 />
                 {hasError
                     ? <Item style={{borderColor: "transparent"}}>
@@ -124,11 +151,11 @@ class SignUp extends Component {
                     <Content>
                         <View style={styles.bg}>
                             <Field name="email" component={this.renderInput}/>
-                            <Field name="password" component={this.renderInput}/>
+                            <Field name="password" component={this.renderInputPassword}/>
                             <Button
                                 style={styles.btn}
-                                //onPress={() => this.signup('abcd@hotmail.com','123456')}
-                                onPress={() => this.props.navigation.navigate("Home")}
+                                onPress={() => this.signup(this.state.email, this.state.password)}
+                                // onPress={() => this.props.navigation.navigate("Home")}
                             >
                                 <Text>SignUp</Text>
                             </Button>

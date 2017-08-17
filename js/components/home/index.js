@@ -20,6 +20,7 @@ import {
     Fab,
 } from "native-base";
 import {Grid, Row} from "react-native-easy-grid";
+import * as firebase from "firebase";
 
 import ActionButton from 'react-native-action-button';
 
@@ -44,14 +45,55 @@ class Home extends Component {
 
     constructor(props) {
         super(props);
+        this.database = firebase.database();
         this.state = {
-            tabIndex: 0
+            tabIndex: 0,
+            user: '',
+            username: [],
+            recordPrice: '',
+            records: [],
+            userId: 4,
+            licensePlate1: '34ae742',
+            licensePlate2: '35ae742'
         };
+        this.createDatabase = this.createDatabase.bind(this);
+
     }
 
-    newPage(index) {
-        this.props.setIndex(index);
-        Actions.blankPage();
+    createDatabase() {
+        var uid = firebase.auth().currentUser.uid;
+        var name = firebase.auth().currentUser;
+        var email = firebase.auth().currentUser.email;
+        var plate1 = this.state.licensePlate1;
+        var plate2 = this.state.licensePlate2;
+
+        //console.log(name)
+        firebase.database().ref("/user/" + uid + "/personalInfo/").set({
+            firstname: 'ali',
+            lastname: 'yilmaz',
+            email: email,
+        });
+        firebase.database().ref("/user/" + uid + "/carInfo/").set({
+            brand: 'volvo',
+            model: 's90',
+            fuelConsumption: '6',
+        });
+        firebase.database().ref("/user/" + uid + "/record/plate1").set({
+        });
+        firebase.database().ref("/user/" + uid + "/record/plate2").set({
+        });
+        firebase.database().ref("/user/" + uid + "/record/plate1/fuel").set({
+
+        });
+        firebase.database().ref("/user/" + uid + "/record/plate1/expense").set({
+
+        });
+        firebase.database().ref("/user/" + uid + "/record/plate2/fuel").set({
+
+        });
+        firebase.database().ref("/user/" + uid + "/record/plate2/expense").set({
+
+        });
     }
 
     switchScreen(tabIndex) {
@@ -83,7 +125,7 @@ class Home extends Component {
     }
 
     render() {
-        console.log(DrawNav, "786785786");
+        console.log(firebase.auth().currentUser.uid);
         return (
             <Container style={styles.container}>
                 <Header style={{backgroundColor: '#031499'}}>
@@ -121,6 +163,12 @@ class Home extends Component {
                 </Header>
                 <Content>
                     {this.renderSelectedTab()}
+                    <Button
+                        style={styles.btn}
+                        onPress={() => this.createDatabase()}
+                    >
+                        <Text>data yolla</Text>
+                    </Button>
                 </Content>
                 <Footer>
                     <FooterTab>
@@ -146,11 +194,13 @@ class Home extends Component {
                             <ActionButton buttonColor="rgba(231,76,60,1)" position={'center'} spacing={10}
                                           degrees={135}>
                                 <ActionButton.Item buttonColor='#9b59b6' title="ADD FUEL"
-                                                   onPress={() => this.props.navigation.navigate("AddFuel")} spaceBetween={-120}>
+                                                   onPress={() => this.props.navigation.navigate("AddFuel")}
+                                                   spaceBetween={-120}>
                                     <Icon name="wrench" style={styles.actionButtonIcon}/>
                                 </ActionButton.Item>
                                 <ActionButton.Item buttonColor='#3498db' title="ADD EXPENSE"
-                                                   onPress={() => this.props.navigation.navigate("AddExpense")} spaceBetween={-120}>
+                                                   onPress={() => this.props.navigation.navigate("AddExpense")}
+                                                   spaceBetween={-120}>
                                     <Icon name="wrench" style={styles.actionButtonIcon}/>
                                 </ActionButton.Item>
                             </ActionButton>

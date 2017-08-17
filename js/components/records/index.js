@@ -52,20 +52,24 @@ class Records extends Component {
     }
 
     getExpenseRecord() {
-        firebase.database().ref("/expense/").on('value', (snapshot) => {
+        var uid = firebase.auth().currentUser.uid;
+
+        firebase.database().ref("/user/" + uid + "/record/plate1/expense/" + "/detail/").on('value', (snapshot) => {
 
             this.setState({expense: snapshot.val()})
         });
     }
 
     getFuelRecord() {
-        firebase.database().ref("/fuel/").on('value', (snapshot) => {
+        var uid = firebase.auth().currentUser.uid;
+
+        firebase.database().ref("/user/" + uid + "/record/plate1/fuel/" + "/detail/").on('value', (snapshot) => {
 
             this.setState({fuel: snapshot.val()})
         });
     }
 
-    renderRow(item) {
+    renderRowFuel(item) {
         var d = new Date(item.when);
         return (
             <View>
@@ -73,8 +77,9 @@ class Records extends Component {
                     <CardItem>
                         <View style={{flexDirection: 'column'}}>
                             <Text>Arac Plaka No: {item.username}</Text>
-                            <Text>Yapilan Masraf: {item.recordPrice}</Text>
-                            <Text>Masraf Tarihi: {d.toLocaleDateString()}</Text>
+                            <Text>Alinan Yakit Fiyati: {item.fuelPrice}</Text>
+                            <Text>Benzinin Litre Fiyati: </Text>
+                            <Text>Alinan Tarih: {d.toLocaleDateString()}</Text>
                         </View>
                     </CardItem>
                 </Card>
@@ -82,7 +87,7 @@ class Records extends Component {
         )
     }
 
-    renderRow1(item) {
+    renderRowExpense(item) {
         var d = new Date(item.when);
         return (
             <View>
@@ -90,9 +95,8 @@ class Records extends Component {
                     <CardItem>
                         <View style={{flexDirection: 'column'}}>
                             <Text>Arac Plaka No: {item.username}</Text>
-                            <Text>Alinan Yakit Fiyati: {item.recordPrice}</Text>
-                            <Text>Benzinin Litre Fiyati: </Text>
-                            <Text>Alinan Tarih: {d.toLocaleDateString()}</Text>
+                            <Text>Yapilan Masraf: {item.expensePrice}</Text>
+                            <Text>Masraf Tarihi: {d.toLocaleDateString()}</Text>
                         </View>
                     </CardItem>
                 </Card>
@@ -110,14 +114,14 @@ class Records extends Component {
                         <Content>
                             <Text>Onceki kayitlariniz:</Text>
                             <List dataArray={this.state.fuel} removeClippedSubviews={false}
-                                  renderRow={(item) => this.renderRow1(item)}/>
+                                  renderRow={(item) => this.renderRowFuel(item)}/>
                         </Content>
                     </Tab>
                     <Tab heading="Expense">
                         <Content>
                             <Text>Onceki kayitlariniz:</Text>
                             <List dataArray={this.state.expense} removeClippedSubviews={false}
-                                  renderRow={(item) => this.renderRow(item)}/>
+                                  renderRow={(item) => this.renderRowExpense(item)}/>
                         </Content>
                     </Tab>
                 </Tabs>
