@@ -12,12 +12,13 @@ import {
     Right,
     Body,
     Input,
-    List
+    Card,
+    CardItem,
+    Item,
 } from "native-base";
 import ActionButton from 'react-native-action-button';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 import * as firebase from "firebase";
-
 
 const {height, width} = Dimensions.get('window');
 
@@ -42,9 +43,11 @@ class AddFuel extends Component {
             username: [],
             recordPrice: '',
             records: [],
-            userId: 4
+            userId: 4,
+            liter: 0,
+            price: 0,
+            averageConsume: '6'
         };
-        this.recordsRef = this.database.ref('records');
         this.sendFuelRecord = this.sendFuelRecord.bind(this);
     }
 
@@ -53,27 +56,213 @@ class AddFuel extends Component {
 
         firebase.database().ref("/user/" + uid + "/record/plate1/fuel/" + "/detail/" + 1).set({
             when: new Date().getTime(),
-            fuelPrice: this.state.recordPrice,
-            where: '',
-            priceOfLiter: 5,
-            amount: '',
-            distance: ''
+            fuelPrice: this.state.price,
+            where: this.state.station,
+            priceOfLiter: this.state.liter,
+            amountOfLiter: this.amountOfTakingFuel(),
+            distance: this.distance(),
         });
     }
 
-    /*sendRecord() {
-     this.recordsRef.transaction((records) =>{
-     if(!records){
-     records = [];
-     }
-     records.push(this.state.records);
-     this.setState({record:''});
-     return records;
-     });
-     }
-     /*}
+    amountOfTakingFuel() {
+        console.log(this.state.price / this.state.liter, this.state.price)
+        if (this.state.price != 0 && this.state.liter != 0) {
+            let result = this.state.price / this.state.liter;
+            return Math.round(result).toString();
+        }
+    }
 
-     */
+    distance() {
+        var literPrice = this.state.liter;
+        var consumeOfCar = this.state.averageConsume;
+        var price = this.state.price;
+
+        var totalDistance = (100 * price) / (literPrice * consumeOfCar);
+        return Math.round(totalDistance).toString();
+    }
+
+    renderCard() {
+        console.log(this.state.price)
+        var today = new Date();
+        return (
+            <View style={{alignItems: 'center'}}>
+                <Card style={{width: width * 0.85}}>
+                    <CardItem>
+                        <View style={{flexDirection: 'column'}}>
+                            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <Text style={styles.addText}>
+                                    Tarih :
+                                </Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <Text>{today.toLocaleDateString()}</Text>
+                                </View>
+                            </View>
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    marginTop: 5
+                                }}>
+                                <Text style={styles.addText}>
+                                    Alinan Istasyon :
+                                </Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <Item style={{width: 100, marginLeft: width * 0.2}}>
+                                        <Input
+                                            style={{
+                                                height: 30,
+                                                fontSize: 14,
+                                            }}
+                                            onChangeText={(t) => this.setState({station: t})}
+                                            value={this.state.station}
+                                        />
+                                    </Item>
+                                </View>
+                            </View>
+                            <View style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                marginTop: 5
+                            }}>
+                                <Text style={styles.addText}>
+                                    Alinan Tutar :
+                                </Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <Item style={{width: 100}}>
+                                        <Input
+                                            style={{
+                                                height: 30,
+                                                fontSize: 14,
+                                            }}
+                                            onChangeText={(t) => this.setState({price: t})}
+                                            keyboardType='numeric'
+                                            value={this.state.price}
+                                        />
+                                    </Item>
+                                </View>
+                            </View>
+                            <View style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                marginTop: 5
+                            }}>
+                                <Text style={styles.addText}>
+                                    Litre Fiyati :
+                                </Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <Item style={{width: 100}}>
+                                        <Input
+                                            style={{
+                                                height: 30,
+                                                fontSize: 14,
+                                            }}
+                                            onChangeText={(t) => this.setState({liter: t})}
+                                            keyboardType='numeric'
+                                            value={this.state.liter}
+                                        />
+                                    </Item>
+                                </View>
+                            </View>
+                            <View style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                marginTop: 5
+                            }}>
+                                <Text style={styles.addText}>
+                                    Ortalama Yakit Tuketimi :
+                                </Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <Item style={{width: 100}}>
+                                        <Input
+                                            style={{
+                                                height: 30,
+                                                fontSize: 14,
+                                            }}
+                                            editable={false}
+                                            keyboardType='numeric'
+                                            value={this.state.averageConsume}
+                                        />
+                                    </Item>
+                                </View>
+                            </View>
+                            <View style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                marginTop: 5
+                            }}>
+                                <Text style={styles.addText}>
+                                    Alinan Litre :
+                                </Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <Item style={{width: 100}}>
+                                        <Input
+                                            style={{
+                                                height: 30,
+                                                fontSize: 14,
+                                            }}
+                                            editable={false}
+                                            keyboardType='numeric'
+                                            //placeholder={this.amountOfTakingFuel()}
+                                            value={this.amountOfTakingFuel()}
+                                        />
+                                    </Item>
+                                </View>
+                            </View>
+                            <View style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                marginTop: 5,
+                                marginBottom: 10
+                            }}>
+                                <Text style={styles.addText}>
+                                    Gidilebilecek Yol :
+                                </Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <Item style={{width: 100}}>
+                                        <Input
+                                            style={{
+                                                height: 30,
+                                                fontSize: 14,
+                                            }}
+                                            editable={false}
+                                            keyboardType='numeric'
+                                            value={this.distance()}
+                                        />
+                                    </Item>
+                                </View>
+                            </View>
+                            <View style={{marginTop: 10}}>
+                                <Button
+                                    style={{
+                                        alignItems: 'center',
+                                        alignSelf: 'center',
+                                        width: 60,
+                                    }}
+                                    success
+                                    rounded
+                                    large
+
+                                    onPress={ () => {
+                                        this.sendFuelRecord();
+                                    }}
+                                >
+                                    <Icon name="md-add" color={'white'} size={34}
+                                          style={{width: 30, marginLeft: -6}}></Icon>
+                                </Button>
+                            </View>
+                        </View>
+
+                    </CardItem>
+                </Card>
+            </View>
+        )
+    }
 
     render() {
         console.log(this.state.user)
@@ -113,22 +302,9 @@ class AddFuel extends Component {
                          */}
                     </Right>
                 </Header>
-                <Content>
+                <Content padder>
                     <Text>Benzin ekle</Text>
-                    <View style={{width: 100}}>
-                        <Input
-                            style={{color: 'black', height: 30, width: 100, fontSize: 14, borderWidth: 1}}
-                            onChangeText={(t) => this.setState({recordPrice: t})}
-                            keyboardType='numeric'
-                            value={this.state.recordPrice}
-                        />
-                    </View>
-                    <Button
-                        style={styles.btn}
-                        onPress={() => this.sendFuelRecord()}
-                    >
-                        <Text>data yolla</Text>
-                    </Button>
+                    {this.renderCard()}
                 </Content>
             </Container>
         )

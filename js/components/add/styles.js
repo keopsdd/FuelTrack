@@ -13,6 +13,9 @@ export default{
     },
     titleText: {
         fontSize: 14,
-
+    },
+    addText: {
+        fontSize: 14,
+        color: 'red'
     }
 };
