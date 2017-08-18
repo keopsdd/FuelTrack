@@ -121,7 +121,7 @@ class Login extends Component {
                             <Button
                                 style={styles.btn}
                                 //onPress={() => this.signup('abcd@hotmail.com','123456')}
-                                onPress={() => this.login('erdinozgen@gmail.com', '123456')}
+                                onPress={() => this.login('ozgenerdin1@hotmail.com', '123456')}
                                 //onPress={() => this.props.navigation.navigate("Home")}
                             >
                                 <Text>Login</Text>

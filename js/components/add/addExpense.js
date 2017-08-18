@@ -51,7 +51,7 @@ class AddExpense extends Component {
     sendExpenseRecord() {
         var uid = firebase.auth().currentUser.uid;
 
-        firebase.database().ref("/user/" + uid + "/record/plate1/expense/" + "/detail/" + 3).set({
+        firebase.database().ref("/user/" + uid + "/record/plate1/expense/" + "/detail/" + 2).set({
             description: 'bole bole harcadik',
             expenseType: 'kopru',
             when: new Date().getTime(),

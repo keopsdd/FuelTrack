@@ -51,7 +51,7 @@ class AddFuel extends Component {
     sendFuelRecord() {
         var uid = firebase.auth().currentUser.uid;
 
-        firebase.database().ref("/user/" + uid + "/record/plate1/fuel/" + "/detail/" + 0).set({
+        firebase.database().ref("/user/" + uid + "/record/plate1/fuel/" + "/detail/" + 1).set({
             when: new Date().getTime(),
             fuelPrice: this.state.recordPrice,
             where: '',

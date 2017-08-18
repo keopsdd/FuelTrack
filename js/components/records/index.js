@@ -55,8 +55,8 @@ class Records extends Component {
         var uid = firebase.auth().currentUser.uid;
 
         firebase.database().ref("/user/" + uid + "/record/plate1/expense/" + "/detail/").on('value', (snapshot) => {
-
-            this.setState({expense: snapshot.val()})
+            if (this.state.expense.length != 0)
+                this.setState({expense: snapshot.val()})
         });
     }
 
@@ -64,8 +64,8 @@ class Records extends Component {
         var uid = firebase.auth().currentUser.uid;
 
         firebase.database().ref("/user/" + uid + "/record/plate1/fuel/" + "/detail/").on('value', (snapshot) => {
-
-            this.setState({fuel: snapshot.val()})
+            if (this.state.fuel.length != 0)
+                this.setState({fuel: snapshot.val()})
         });
     }
 

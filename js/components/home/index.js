@@ -56,44 +56,7 @@ class Home extends Component {
             licensePlate1: '34ae742',
             licensePlate2: '35ae742'
         };
-        this.createDatabase = this.createDatabase.bind(this);
 
-    }
-
-    createDatabase() {
-        var uid = firebase.auth().currentUser.uid;
-        var name = firebase.auth().currentUser;
-        var email = firebase.auth().currentUser.email;
-        var plate1 = this.state.licensePlate1;
-        var plate2 = this.state.licensePlate2;
-
-        //console.log(name)
-        firebase.database().ref("/user/" + uid + "/personalInfo/").set({
-            firstname: 'ali',
-            lastname: 'yilmaz',
-            email: email,
-        });
-        firebase.database().ref("/user/" + uid + "/carInfo/").set({
-            brand: 'volvo',
-            model: 's90',
-            fuelConsumption: '6',
-        });
-        firebase.database().ref("/user/" + uid + "/record/plate1").set({
-        });
-        firebase.database().ref("/user/" + uid + "/record/plate2").set({
-        });
-        firebase.database().ref("/user/" + uid + "/record/plate1/fuel").set({
-
-        });
-        firebase.database().ref("/user/" + uid + "/record/plate1/expense").set({
-
-        });
-        firebase.database().ref("/user/" + uid + "/record/plate2/fuel").set({
-
-        });
-        firebase.database().ref("/user/" + uid + "/record/plate2/expense").set({
-
-        });
     }
 
     switchScreen(tabIndex) {
@@ -163,12 +126,6 @@ class Home extends Component {
                 </Header>
                 <Content>
                     {this.renderSelectedTab()}
-                    <Button
-                        style={styles.btn}
-                        onPress={() => this.createDatabase()}
-                    >
-                        <Text>data yolla</Text>
-                    </Button>
                 </Content>
                 <Footer>
                     <FooterTab>

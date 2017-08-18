@@ -64,10 +64,19 @@ class SignUp extends Component {
         this.state = {
             name: "",
             email: '',
-            password: ''
+            password: '',
+            user: '',
+            username: [],
+            recordPrice: '',
+            records: [],
+            userId: 4,
+            licensePlate1: '34ae742',
+            licensePlate2: '35ae742'
         };
         this.renderInput = this.renderInput.bind(this);
         this.renderInputPassword = this.renderInputPassword.bind(this);
+        this.createDatabase = this.createDatabase.bind(this);
+
     }
 
     async signup(email, pass) {
@@ -77,13 +86,50 @@ class SignUp extends Component {
                 .createUserWithEmailAndPassword(email, pass);
 
             console.log("Account created");
+            console.log('hoooop', firebase.auth().currentUser.uid);
+            this.createDatabase();
             this.props.navigation.navigate("Home")
             // Navigate to the Home page, the user is auto logged in
 
         } catch (error) {
             console.log(error.toString())
         }
+    }
 
+    createDatabase() {
+        var uid = firebase.auth().currentUser.uid;
+        var name = firebase.auth().currentUser;
+        var email = firebase.auth().currentUser.email;
+        var plate1 = this.state.licensePlate1;
+        var plate2 = this.state.licensePlate2;
+
+        //console.log(name)
+        firebase.database().ref("/user/" + uid + "/personalInfo/").set({
+            firstname: 'ali',
+            lastname: 'yilmaz',
+            email: email,
+        });
+        firebase.database().ref("/user/" + uid + "/carInfo/").set({
+            brand: 'volvo',
+            model: 's90',
+            fuelConsumption: '6',
+        });
+        firebase.database().ref("/user/" + uid + "/record/plate1").set({
+        });
+        firebase.database().ref("/user/" + uid + "/record/plate2").set({
+        });
+        firebase.database().ref("/user/" + uid + "/record/plate1/fuel").set({
+
+        });
+        firebase.database().ref("/user/" + uid + "/record/plate1/expense").set({
+
+        });
+        firebase.database().ref("/user/" + uid + "/record/plate2/fuel").set({
+
+        });
+        firebase.database().ref("/user/" + uid + "/record/plate2/expense").set({
+
+        });
     }
 
     renderInput({
