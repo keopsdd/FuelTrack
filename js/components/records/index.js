@@ -55,7 +55,7 @@ class Records extends Component {
         var uid = firebase.auth().currentUser.uid;
 
         firebase.database().ref("/user/" + uid + "/record/plate1/expense/" + "/detail/").on('value', (snapshot) => {
-                this.setState({expense: snapshot.val()})
+            this.setState({expense: snapshot.val()})
         });
     }
 
@@ -63,21 +63,24 @@ class Records extends Component {
         var uid = firebase.auth().currentUser.uid;
 
         firebase.database().ref("/user/" + uid + "/record/plate1/fuel/" + "/detail/").on('value', (snapshot) => {
-                this.setState({fuel: snapshot.val()})
+            this.setState({fuel: snapshot.val()})
         });
     }
 
     renderRowFuel(item) {
-        var d = new Date(item.when);
+        var date = item.when;
+        var today = new Date(date);
         return (
             <View>
                 <Card>
                     <CardItem>
                         <View style={{flexDirection: 'column'}}>
-                            <Text>Arac Plaka No: {item.username}</Text>
-                            <Text>Alinan Yakit Fiyati: {item.fuelPrice}</Text>
-                            <Text>Benzinin Litre Fiyati: </Text>
-                            <Text>Alinan Tarih: {d.toLocaleDateString()}</Text>
+                            <Text>Tarih: {today.toLocaleDateString()}</Text>
+                            <Text>Alinan istasyon: {item.where}</Text>
+                            <Text>Alinan Tutar: {item.fuelPrice}</Text>
+                            <Text>Litre fiyati: {item.priceOfLiter}</Text>
+                            <Text>Alinan litre: {item.amountOfLiter}</Text>
+                            <Text>Gidilebilecek yol: {item.distance}</Text>
                         </View>
                     </CardItem>
                 </Card>
@@ -86,15 +89,17 @@ class Records extends Component {
     }
 
     renderRowExpense(item) {
-        var d = new Date(item.when);
+        var date = item.when;
+        var today = new Date(date);
         return (
             <View>
                 <Card>
                     <CardItem>
                         <View style={{flexDirection: 'column'}}>
-                            <Text>Arac Plaka No: {item.username}</Text>
-                            <Text>Yapilan Masraf: {item.expensePrice}</Text>
-                            <Text>Masraf Tarihi: {d.toLocaleDateString()}</Text>
+                            <Text>Tarih: {today.toLocaleDateString()}</Text>
+                            <Text>Aciklama {item.description}</Text>
+                            <Text>Masraf turu: {item.expenseType}</Text>
+                            <Text>Tutar: {item.expensePrice}</Text>
                         </View>
                     </CardItem>
                 </Card>

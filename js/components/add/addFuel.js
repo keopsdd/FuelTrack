@@ -76,9 +76,10 @@ class AddFuel extends Component {
         var literPrice = this.state.liter;
         var consumeOfCar = this.state.averageConsume;
         var price = this.state.price;
-
-        var totalDistance = (100 * price) / (literPrice * consumeOfCar);
-        return Math.round(totalDistance).toString();
+        if (this.state.price != 0 && this.state.liter != 0) {
+            var totalDistance = (100 * price) / (literPrice * consumeOfCar);
+            return Math.round(totalDistance).toString();
+        }
     }
 
     renderCard() {
@@ -257,7 +258,6 @@ class AddFuel extends Component {
                                 </Button>
                             </View>
                         </View>
-
                     </CardItem>
                 </Card>
             </View>

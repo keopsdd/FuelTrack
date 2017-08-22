@@ -12,12 +12,14 @@ import {
     Right,
     Body,
     Input,
-    List
+    Card,
+    CardItem,
+    Item,
+    Picker
 } from "native-base";
 import ActionButton from 'react-native-action-button';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 import * as firebase from "firebase";
-
 
 const {height, width} = Dimensions.get('window');
 
@@ -38,11 +40,9 @@ class AddExpense extends Component {
         super(props);
         this.database = firebase.database();
         this.state = {
-            user: '',
-            username: [],
-            recordPrice: '',
-            records: [],
-            userId: 4
+            description: '',
+            expPrice: '',
+            expenseType: null
         };
         this.recordsRef = this.database.ref('records');
         this.sendExpenseRecord = this.sendExpenseRecord.bind(this);
@@ -52,10 +52,10 @@ class AddExpense extends Component {
         var uid = firebase.auth().currentUser.uid;
 
         firebase.database().ref("/user/" + uid + "/record/plate1/expense/" + "/detail/" + 2).set({
-            description: 'bole bole harcadik',
-            expenseType: 'kopru',
+            description: this.state.description,
+            expenseType: this.state.expenseType,
             when: new Date().getTime(),
-            expensePrice: this.state.recordPrice
+            expensePrice: this.state.expPrice
         });
     }
 
@@ -72,6 +72,122 @@ class AddExpense extends Component {
      /*}
 
      */
+
+    renderCard() {
+        var today = new Date();
+        return (
+            <View style={{alignItems: 'center'}}>
+                <Card style={{width: width * 0.85}}>
+                    <CardItem>
+                        <View style={{flexDirection: 'column', flex: 1}}>
+                            <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <Text style={styles.addText}>
+                                    Tarih :
+                                </Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <Text>{today.toLocaleDateString()}</Text>
+                                </View>
+                            </View>
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    marginTop: 5
+                                }}>
+                                <Text style={styles.addText}>
+                                    Masraf Turu :
+                                </Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <Picker
+                                        style={{
+                                            marginLeft: 25,
+                                        }}
+                                        textStyle={{
+                                            borderBottomColor: '#3B5999',
+                                            color: '#3B5999',
+                                        }}
+                                        iosHeader={'asd'}
+                                        onValueChange={(expenseType) => this.setState({expenseType})}
+                                        selectedValue={this.state.expenseType}>
+                                        <Picker.Item label="Seçiniz" value={null}/>
+                                        <Picker.Item label="Otoyol" value="otoyol"/>
+                                        <Picker.Item label="Kopru" value="kopru"/>
+                                        <Picker.Item label="Lastik" value="lastik"/>
+                                        <Picker.Item label="Bakim" value="bakim"/>
+                                    </Picker>
+                                </View>
+                            </View>
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    marginTop: 5
+                                }}>
+                                <Text style={styles.addText}>
+                                    Tutar :
+                                </Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <Item style={{width: 100, marginLeft: width * 0.2}}>
+                                        <Input
+                                            style={{
+                                                height: 30,
+                                                fontSize: 14,
+                                            }}
+                                            onChangeText={(t) => this.setState({expPrice: t})}
+                                            value={this.state.expPrice}
+                                        />
+                                    </Item>
+                                </View>
+                            </View>
+                            <View style={{
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                marginTop: 5
+                            }}>
+                                <Text style={styles.addText}>
+                                    Aciklama :
+                                </Text>
+                                <View style={{alignItems: 'flex-end'}}>
+                                    <Item style={{width: 100}}>
+                                        <Input
+                                            style={{
+                                                height: 30,
+                                                fontSize: 14,
+                                            }}
+                                            onChangeText={(t) => this.setState({description: t})}
+                                            keyboardType='numeric'
+                                            value={this.state.description}
+                                        />
+                                    </Item>
+                                </View>
+                            </View>
+                            <View style={{marginTop: 10}}>
+                                <Button
+                                    style={{
+                                        alignItems: 'center',
+                                        alignSelf: 'center',
+                                        width: 60,
+                                    }}
+                                    success
+                                    rounded
+                                    large
+                                    onPress={ () => {
+                                        this.sendExpenseRecord();
+                                    }}
+                                >
+                                    <Icon name="md-add" color={'white'} size={34}
+                                          style={{width: 30, marginLeft: -6}}></Icon>
+                                </Button>
+                            </View>
+                        </View>
+                    </CardItem>
+                </Card>
+            </View>
+        )
+    }
 
     render() {
         console.log(this.state.user)
@@ -111,22 +227,9 @@ class AddExpense extends Component {
                          */}
                     </Right>
                 </Header>
-                <Content>
+                <Content padder>
                     <Text>Masraf ekle</Text>
-                    <View style={{width: 100}}>
-                        <Input
-                            style={{color: 'black', height: 30, width: 100, fontSize: 14, borderWidth: 1}}
-                            onChangeText={(t) => this.setState({recordPrice: t})}
-                            keyboardType='numeric'
-                            value={this.state.recordPrice}
-                        />
-                    </View>
-                    <Button
-                        style={styles.btn}
-                        onPress={() => this.sendExpenseRecord()}
-                    >
-                        <Text>data yolla</Text>
-                    </Button>
+                    {this.renderCard()}
                 </Content>
             </Container>
         )
