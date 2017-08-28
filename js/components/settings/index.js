@@ -17,6 +17,16 @@ import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const {height, width} = Dimensions.get('window');
+import * as firebase from "firebase";
+if (!firebase.apps.length) {
+    firebase.initializeApp({
+        apiKey: "AIzaSyA29FldepWaIgYA-0CvJmiGWWStz6CSc5M",
+        authDomain: "benzintakip-5f005.firebaseapp.com",
+        databaseURL: "https://benzintakip-5f005.firebaseio.com",
+        projectId: "benzintakip-5f005",
+        storageBucket: "benzintakip-5f005.appspot.com",
+    });
+}
 
 import styles from "./styles";
 
@@ -42,20 +52,18 @@ class Extras extends Component {
         };
     }
 
-    experimentFuelPrice() {
-        let literPrice = this.state.literPrice;
-        let distance = this.state.distance;
-        let spentFuel = 5;
-        if (this.state.button) {
-            let result = (distance / 100) * spentFuel * literPrice;
-            //result = 1000;
-            return result;
+    async logout() {
+
+        try {
+
+            await firebase.auth().signOut();
+
+            // Navigate to login view
+
+        } catch (error) {
+            console.log(error);
         }
 
-        if (this.state.button)
-            this.setState({
-                button: false
-            })
     }
 
     render() {
@@ -84,6 +92,18 @@ class Extras extends Component {
                                 </Left>
                                 <Body>
                                 <Text>About</Text>
+                                </Body>
+                            </ListItem>
+                            <ListItem icon button
+                                      onPress={() => this.logout()}>
+                                <Left>
+                                    <Icon
+                                        name='sign-out'
+                                        size={20}
+                                    />
+                                </Left>
+                                <Body>
+                                <Text>Çıkış</Text>
                                 </Body>
                             </ListItem>
                         </List>

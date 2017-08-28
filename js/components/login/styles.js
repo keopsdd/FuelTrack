@@ -4,6 +4,7 @@ const React = require('react-native');
 const { StyleSheet, Dimensions } = React;
 
 const deviceHeight = Dimensions.get('window').height;
+const deviceWidth = Dimensions.get('window').width;
 
 export default {
   container: {
@@ -12,7 +13,6 @@ export default {
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#FBFAFA',
   },
   shadow: {
     flex: 1,
@@ -21,7 +21,7 @@ export default {
   },
   bg: {
     flex: 1,
-    marginTop: deviceHeight / 1.75,
+    marginTop: deviceHeight / 4,
     paddingTop: 20,
     paddingLeft: 10,
     paddingRight: 10,
@@ -34,5 +34,12 @@ export default {
   btn: {
     marginTop: 20,
     alignSelf: 'center',
+    width: deviceWidth / 2,
+    justifyContent: 'center',
+    backgroundColor: "grey"
+  },
+  btnSignUp: {
+    alignSelf: 'center',
+    backgroundColor: 'transparent',
   },
 };

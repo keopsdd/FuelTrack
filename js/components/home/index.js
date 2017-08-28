@@ -54,7 +54,7 @@ class Home extends Component {
             records: [],
             userId: 4,
             licensePlate1: '34ae742',
-            licensePlate2: '35ae742'
+            licensePlate2: '35ae742',
         };
 
     }

@@ -38,4 +38,8 @@ export default {
         justifyContent: 'center',
         backgroundColor: "grey"
     },
+    btnSignUp: {
+        alignSelf: 'center',
+        backgroundColor: 'transparent',
+    },
 };

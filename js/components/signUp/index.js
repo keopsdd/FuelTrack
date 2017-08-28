@@ -9,7 +9,12 @@ import {
     Button,
     Icon,
     View,
-    Text
+    Text,
+    Header,
+    Left,
+    Body,
+    Title,
+    Right
 } from "native-base";
 import {Field, reduxForm} from "redux-form";
 import {setUser} from "../../actions/user";
@@ -70,10 +75,10 @@ class SignUp extends Component {
             recordPrice: '',
             records: [],
             userId: 4,
-            licensePlate1: '34ae742',
-            licensePlate2: '35ae742'
+            firstname: '',
+            lastname: ''
         };
-        this.renderInput = this.renderInput.bind(this);
+        this.renderInputEmail = this.renderInputEmail.bind(this);
         this.renderInputPassword = this.renderInputPassword.bind(this);
         this.createDatabase = this.createDatabase.bind(this);
 
@@ -105,34 +110,53 @@ class SignUp extends Component {
 
         //console.log(name)
         firebase.database().ref("/user/" + uid + "/personalInfo/").set({
-            firstname: 'ali',
-            lastname: 'yilmaz',
+            firstname: this.state.firstname,
+            lastname: this.state.lastname,
             email: email,
+            session: true
         });
         firebase.database().ref("/user/" + uid + "/carInfo/").set({
             brand: 'volvo',
             model: 's90',
             fuelConsumption: '6',
         });
-        firebase.database().ref("/user/" + uid + "/record/plate1").set({
-        });
-        firebase.database().ref("/user/" + uid + "/record/plate2").set({
-        });
-        firebase.database().ref("/user/" + uid + "/record/plate1/fuel").set({
-
-        });
-        firebase.database().ref("/user/" + uid + "/record/plate1/expense").set({
-
-        });
-        firebase.database().ref("/user/" + uid + "/record/plate2/fuel").set({
-
-        });
-        firebase.database().ref("/user/" + uid + "/record/plate2/expense").set({
-
-        });
+        firebase.database().ref("/user/" + uid + "/record/plate1").set({});
+        firebase.database().ref("/user/" + uid + "/record/plate2").set({});
+        firebase.database().ref("/user/" + uid + "/record/plate1/fuel").set({});
+        firebase.database().ref("/user/" + uid + "/record/plate1/expense").set({});
+        firebase.database().ref("/user/" + uid + "/record/plate2/fuel").set({});
+        firebase.database().ref("/user/" + uid + "/record/plate2/expense").set({});
     }
 
-    renderInput({
+    renderName() {
+        return (
+            <View style={{borderRadius: 30, backgroundColor: 'rgba(10, 12, 12, 0.2)'}}>
+                <View style={{flexDirection: 'row', alignItems: 'center', paddingLeft: 12}}>
+                    <Input
+                        style={{marginLeft: 5}}
+                        placeholder={'Adınız'}
+                        onChangeText={(t) => this.setState({firstname: t})}
+                    />
+                </View>
+            </View>
+        )
+    }
+
+    renderLastName() {
+        return (
+            <View style={{borderRadius: 30, backgroundColor: 'rgba(10, 12, 12, 0.2)', marginTop: 10}}>
+                <View style={{flexDirection: 'row', alignItems: 'center', paddingLeft: 12}}>
+                    <Input
+                        style={{marginLeft: 5}}
+                        placeholder={'Soyadınız'}
+                        onChangeText={(t) => this.setState({lastname: t})}
+                    />
+                </View>
+            </View>
+        )
+    }
+
+    renderInputEmail({
         input,
         label,
         type,
@@ -144,20 +168,23 @@ class SignUp extends Component {
             hasError = true;
         }
         return (
-            <Item error={hasError}>
-                <Icon active name={input.name === "email" ? "person" : "unlock"}/>
-                <Input
-                    placeholder={input.name === "email" ? "EMAIL" : "PASSWORD"}
-                    {...input}
-                    onChangeText={(t) => this.setState({email: t})}
-                />
-                {hasError
-                    ? <Item style={{borderColor: "transparent"}}>
-                    <Icon active style={{color: "red", marginTop: 5}} name="bug"/>
-                    <Text style={{fontSize: 15, color: "red"}}>{error}</Text>
-                </Item>
-                    : <Text />}
-            </Item>
+            <View style={{borderRadius: 30, backgroundColor: 'rgba(10, 12, 12, 0.2)', marginTop: 10}}>
+                <View style={{flexDirection: 'row', alignItems: 'center', paddingLeft: 12}} error={hasError}>
+                    <Icon active name={input.name === "email" ? "person" : "unlock"}/>
+                    <Input
+                        style={{marginLeft: 5}}
+                        placeholder={input.name === "email" ? "email" : "şifre"}
+                        {...input}
+                        onChangeText={(t) => this.setState({email: t})}
+                    />
+                    {hasError
+                        ? <Item style={{borderColor: "transparent"}}>
+                        <Icon active style={{color: "red", marginTop: 5}} name="bug"/>
+                        {/*<Text style={{fontSize: 15, color: "red"}}>{error}</Text>*/}
+                    </Item>
+                        : <Text />}
+                </View>
+            </View>
         );
     }
 
@@ -173,20 +200,24 @@ class SignUp extends Component {
             hasError = true;
         }
         return (
-            <Item error={hasError}>
-                <Icon active name={input.name === "password" ? "unlock" : "person"}/>
-                <Input
-                    placeholder={input.name === "password" ? "PASSWORD" : "EMAIL"}
-                    {...input}
-                    onChangeText={(t) => this.setState({password: t})}
-                />
-                {hasError
-                    ? <Item style={{borderColor: "transparent"}}>
-                    <Icon active style={{color: "red", marginTop: 5}} name="bug"/>
-                    <Text style={{fontSize: 15, color: "red"}}>{error}</Text>
-                </Item>
-                    : <Text />}
-            </Item>
+            <View style={{borderRadius: 30, backgroundColor: 'rgba(10, 12, 12, 0.2)', marginTop: 10}}>
+                <View style={{flexDirection: 'row', alignItems: 'center', paddingLeft: 12}} error={hasError}>
+                    <Icon
+                        active name={input.name === "password" ? "unlock" : "person"}/>
+                    <Input
+                        style={{marginLeft: 5}}
+                        placeholder={input.name === "password" ? "şifre" : "email"}
+                        {...input}
+                        onChangeText={(t) => this.setState({password: t})}
+                    />
+                    {hasError
+                        ? <Item style={{borderColor: "transparent"}}>
+                        <Icon active style={{color: "red", marginTop: 5}} name="bug"/>
+                        {/*<Text style={{fontSize: 15, color: "red"}}>{error}</Text>*/}
+                    </Item>
+                        : <Text />}
+                </View>
+            </View>
         );
     }
 
@@ -194,11 +225,47 @@ class SignUp extends Component {
         return (
             <Container>
                 <View style={styles.container}>
+                    <Header style={{backgroundColor: '#031499'}}>
+                        <Left>
+                            {/*
+                             <Button
+                             transparent
+                             onPress={() => {
+                             DrawerNav.dispatch(
+                             NavigationActions.reset({
+                             index: 0,
+                             actions: [NavigationActions.navigate({routeName: "Home"})]
+                             })
+                             );
+                             DrawerNav.goBack();
+                             }}
+                             >
+                             <Icon active name="power"/>
+                             </Button>
+                             */}
+                        </Left>
+                        <Body>
+                        <Title style={{color: 'white'}}>Kayıt Ol</Title>
+                        </Body>
+                        <Right>
+                            {/*
+                             <Button
+                             transparent
+                             onPress={() => this.props.navigation.navigate("Login")}
+                             >
+                             <Icon active name="menu" />
+                             </Button>
+                             */}
+                        </Right>
+                    </Header>
                     <Content>
                         <View style={styles.bg}>
-                            <Field name="email" component={this.renderInput}/>
+                            {this.renderName()}
+                            {this.renderLastName()}
+                            <Field name="email" component={this.renderInputEmail}/>
                             <Field name="password" component={this.renderInputPassword}/>
                             <Button
+                                rounded
                                 style={styles.btn}
                                 onPress={() => this.signup(this.state.email, this.state.password)}
                                 // onPress={() => this.props.navigation.navigate("Home")}

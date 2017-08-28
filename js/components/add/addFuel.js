@@ -46,15 +46,35 @@ class AddFuel extends Component {
             userId: 4,
             liter: 0,
             price: 0,
-            averageConsume: '6'
+            averageConsume: '6',
+            count: 1
         };
         this.sendFuelRecord = this.sendFuelRecord.bind(this);
+    }
+
+    componentDidMount() {
+        this.getExpenseRecord();
+        this.getFuelRecord()
+    }
+
+    getExpenseRecord() {
+        var uid = firebase.auth().currentUser.uid;
+        firebase.database().ref("/user/" + uid + "/record/plate1/expense/" + "/detail/").on('value', (snapshot) => {
+            this.setState({expense: snapshot.val()})
+        });
+    }
+
+    getFuelRecord() {
+        var uid = firebase.auth().currentUser.uid;
+        firebase.database().ref("/user/" + uid + "/record/plate1/fuel/" + "/detail/").on('value', (snapshot) => {
+            this.setState({fuel: snapshot.val()})
+        });
     }
 
     sendFuelRecord() {
         var uid = firebase.auth().currentUser.uid;
 
-        firebase.database().ref("/user/" + uid + "/record/plate1/fuel/" + "/detail/" + 1).set({
+        firebase.database().ref("/user/" + uid + "/record/plate1/fuel/" + "/detail/" + this.state.count).set({
             when: new Date().getTime(),
             fuelPrice: this.state.price,
             where: this.state.station,
@@ -62,10 +82,14 @@ class AddFuel extends Component {
             amountOfLiter: this.amountOfTakingFuel(),
             distance: this.distance(),
         });
+        this.setState({
+            count: this.state.count+1
+    })
+
     }
 
     amountOfTakingFuel() {
-        console.log(this.state.price / this.state.liter, this.state.price)
+        //console.log(this.state.price / this.state.liter, this.state.price)
         if (this.state.price != 0 && this.state.liter != 0) {
             let result = this.state.price / this.state.liter;
             return Math.round(result).toString();
@@ -83,7 +107,7 @@ class AddFuel extends Component {
     }
 
     renderCard() {
-        console.log(this.state.price)
+        //console.log(this.state.price)
         var today = new Date();
         return (
             <View style={{alignItems: 'center'}}>
@@ -265,7 +289,7 @@ class AddFuel extends Component {
     }
 
     render() {
-        console.log(this.state.user)
+        // console.log(this.state.user)
 
         return (
             <Container style={styles.container}>

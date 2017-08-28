@@ -14,7 +14,7 @@ import {
     Tabs
 } from "native-base";
 import ActionButton from 'react-native-action-button';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import * as firebase from "firebase";
 
@@ -42,7 +42,10 @@ class Records extends Component {
             username: [],
             recordPrice: '',
             records: [],
-            userId: 4
+            userId: 4,
+            selectedTabIndex: 0,
+            selectedFuel: [],
+            selectedExpense: [],
         };
     }
 
@@ -53,7 +56,6 @@ class Records extends Component {
 
     getExpenseRecord() {
         var uid = firebase.auth().currentUser.uid;
-
         firebase.database().ref("/user/" + uid + "/record/plate1/expense/" + "/detail/").on('value', (snapshot) => {
             this.setState({expense: snapshot.val()})
         });
@@ -61,29 +63,63 @@ class Records extends Component {
 
     getFuelRecord() {
         var uid = firebase.auth().currentUser.uid;
-
         firebase.database().ref("/user/" + uid + "/record/plate1/fuel/" + "/detail/").on('value', (snapshot) => {
             this.setState({fuel: snapshot.val()})
         });
     }
 
+    deleteFuelRecord() {
+        var uid = firebase.auth().currentUser.uid;
+        firebase.database().ref("/user/" + uid + "/record/plate1/fuel/" + "/detail/" + 2).remove();
+    }
+
+    changeTab(item) {
+        this.setState({selectedTabIndex: item.i});
+    }
+
+
     renderRowFuel(item) {
         var date = item.when;
         var today = new Date(date);
+
         return (
             <View>
-                <Card>
-                    <CardItem>
-                        <View style={{flexDirection: 'column'}}>
-                            <Text>Tarih: {today.toLocaleDateString()}</Text>
-                            <Text>Alinan istasyon: {item.where}</Text>
-                            <Text>Alinan Tutar: {item.fuelPrice}</Text>
-                            <Text>Litre fiyati: {item.priceOfLiter}</Text>
-                            <Text>Alinan litre: {item.amountOfLiter}</Text>
-                            <Text>Gidilebilecek yol: {item.distance}</Text>
-                        </View>
-                    </CardItem>
-                </Card>
+                <TouchableOpacity onPress={ () => {
+                    console.log(this.state.fuel.findIndex(e => e.id === item.id));
+                }}
+                >
+                    <Card>
+                        <CardItem>
+                            <View style={{flex: 1}}>
+                                <View style={{flexDirection: 'column'}}>
+                                    <Text>Tarih: {today.toLocaleDateString()}</Text>
+                                    <Text>Alinan istasyon: {item.where}</Text>
+                                    <Text>Alinan Tutar: {item.fuelPrice}</Text>
+                                    <Text>Litre fiyati: {item.priceOfLiter}</Text>
+                                    <Text>Alinan litre: {item.amountOfLiter}</Text>
+                                    <Text>Gidilebilecek yol: {item.distance}</Text>
+                                </View>
+                                <View style={{marginTop: 10}}>
+                                    <Button
+                                        style={{
+                                            alignItems: 'center',
+                                            alignSelf: 'center',
+                                            width: 60,
+                                        }}
+                                        rounded
+                                        large
+                                        onPress={ () => {
+                                            this.deleteFuelRecord();
+                                        }}
+                                    >
+                                        <Icon name="md-trash" color={'white'} size={34}
+                                              style={{width: 30, marginLeft: -6}}></Icon>
+                                    </Button>
+                                </View>
+                            </View>
+                        </CardItem>
+                    </Card>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -108,11 +144,11 @@ class Records extends Component {
     }
 
     render() {
-        console.log('asdasdasd', this.state.fuel, this.state.expense)
+        var uid = firebase.auth().currentUser.uid;
 
         return (
             <Container style={styles.container}>
-                <Tabs>
+                <Tabs onChangeTab={(item) => this.changeTab(item)}>
                     <Tab heading="Fuel">
                         <Content>
                             <Text>Onceki kayitlariniz:</Text>

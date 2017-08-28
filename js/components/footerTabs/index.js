@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {TouchableOpacity, View, Dimensions} from "react-native";
+import {TouchableOpacity, View, Dimensions, InteractionManager} from "react-native";
 import {connect} from "react-redux";
 import {
     Container,
@@ -18,6 +18,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Settings from '../settings'
 import Extras from '../extras'
 import Record from '../records'
+
+import * as firebase from "firebase";
 
 const {height, width} = Dimensions.get('window');
 
@@ -41,24 +43,22 @@ class FooterTabs extends Component {
             literPrice: '',
             expense: '',
             result: 0,
-            button: false
+            button: false,
+            personalInfo: []
         };
     }
 
-    experimentFuelPrice() {
-        let literPrice = this.state.literPrice;
-        let distance = this.state.distance;
-        let spentFuel = 5;
-        if (this.state.button) {
-            let result = (distance / 100) * spentFuel * literPrice;
-            //result = 1000;
-            return result;
-        }
+    componentDidMount() {
+        InteractionManager.runAfterInteractions(() => {
+            this.getName();
+        });
+    }
 
-        if (this.state.button)
-            this.setState({
-                button: false
-            })
+    getName() {
+        var uid = firebase.auth().currentUser.uid;
+        firebase.database().ref("/user/" + uid + "/personalInfo").on('value', (snapshot) => {
+            this.setState({personalInfo: snapshot.val()})
+        });
     }
 
     renderTab() {
@@ -66,7 +66,7 @@ class FooterTabs extends Component {
         switch (tabType) {
             case "HOME":
                 return <View>
-                    <Text>ana sayfa tatlisko</Text>
+                    <Text>Merhaba {this.state.personalInfo.firstname}</Text>
                 </View>
                 break;
             case "RECORDS":
