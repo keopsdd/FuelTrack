@@ -70,19 +70,19 @@ class Home extends Component {
     renderSelectedTab() {
         switch (this.state.tabIndex) {
             case 0:
-                return (<FooterTabs type="HOME"/>);
+                return (<FooterTabs type="HOME" navigation={this.props.navigation}/>);
                 break;
             case 1:
-                return (<FooterTabs type="RECORDS"/>);
+                return (<FooterTabs type="RECORDS" navigation={this.props.navigation}/>);
                 break;
             case 2:
-                return (<FooterTabs type="ADD"/>);
+                return (<FooterTabs type="ADD" navigation={this.props.navigation}/>);
                 break;
             case 3:
-                return (<FooterTabs type="EXTRAS"/>);
+                return (<FooterTabs type="EXTRAS" navigation={this.props.navigation}/>);
                 break;
             case 4:
-                return (<FooterTabs type="SETTINGS"/>);
+                return (<FooterTabs type="SETTINGS" navigation={this.props.navigation}/>);
                 break;
         }
     }
@@ -129,8 +129,8 @@ class Home extends Component {
                 </Content>
                 <Footer>
                     <FooterTab>
-                        <Button vertical active={ this.state.tabIndex == 0 ? true : false }
-                                onPress={ this.switchScreen.bind(this, 0) }
+                        <Button vertical active={this.state.tabIndex == 0 ? true : false}
+                                onPress={this.switchScreen.bind(this, 0)}
                         >
                             <Icon
                                 name='home'
@@ -138,8 +138,8 @@ class Home extends Component {
                             />
                             <Text style={styles.footerText}>Home</Text>
                         </Button>
-                        <Button vertical active={ this.state.tabIndex == 1 ? true : false }
-                                onPress={ this.switchScreen.bind(this, 1) }
+                        <Button vertical active={this.state.tabIndex == 1 ? true : false}
+                                onPress={this.switchScreen.bind(this, 1)}
                         >
                             <Icon
                                 name='bars'
@@ -162,8 +162,8 @@ class Home extends Component {
                                 </ActionButton.Item>
                             </ActionButton>
                         </Button>
-                        <Button vertical active={ this.state.tabIndex == 3 ? true : false }
-                                onPress={ this.switchScreen.bind(this, 3) }
+                        <Button vertical active={this.state.tabIndex == 3 ? true : false}
+                                onPress={this.switchScreen.bind(this, 3)}
                         >
                             <Icon
                                 name='pencil-square-o'
@@ -171,8 +171,8 @@ class Home extends Component {
                             />
                             <Text style={styles.footerText}>Extras</Text>
                         </Button>
-                        <Button vertical active={ this.state.tabIndex == 4 ? true : false }
-                                onPress={ this.switchScreen.bind(this, 4) }
+                        <Button vertical active={this.state.tabIndex == 4 ? true : false}
+                                onPress={this.switchScreen.bind(this, 4)}
                         >
                             <Icon
                                 name='cog'
@@ -193,6 +193,7 @@ function bindAction(dispatch) {
         openDrawer: () => dispatch(openDrawer())
     };
 }
+
 const mapStateToProps = state => ({
     name: state.user.name,
     list: state.list.list
